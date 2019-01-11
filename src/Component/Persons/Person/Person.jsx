@@ -15,6 +15,10 @@ class Person extends Component {
     console.log("Person component did Mount");
   }
 
+  componentWillUnmount() {
+    console.log("Person component will un Mount");
+  }
+
   render() {
     console.log("Person Render Method called");
 

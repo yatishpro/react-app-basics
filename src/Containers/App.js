@@ -24,6 +24,22 @@ class App extends Component {
   componentDidMount() {
     console.log("component did mount");
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(
+      "Update App.js inside should component update",
+      nextProps,
+      this.props.persons
+    );
+    return true;
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log("Update App.js will update", nextProps, this.props.persons);
+  }
+
+  componentDidUpdate() {
+    console.log("Update App.js component did update");
+  }
 
   nameChangeHandler = (event, id) => {
     const users = [...this.state.users];

@@ -15,6 +15,34 @@ class Persons extends Component {
     console.log("Persons component did Mount");
   }
 
+  componentWillUnmount() {
+    console.log("Persons component will Un mount");
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(
+      "Update Person.js Inside componen will receive props",
+      nextProps
+    );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(
+      "Update Person.js inside should component update",
+      nextProps,
+      this.props.persons
+    );
+    return nextProps.persons !== this.props.persons;
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log("Update Person.js will update", nextProps, this.props.persons);
+  }
+
+  componentDidUpdate() {
+    console.log("Update Person.js component did update");
+  }
+
   render() {
     console.log("Persons Render Method called");
 
