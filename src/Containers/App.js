@@ -2,15 +2,21 @@ import React, { Component } from "react";
 import classes from "./app.module.scss";
 import Persons from "../Component/Persons/Persons";
 import Cockpit from "../Component/Cockpit/Cockpit";
+import Aux from "../hoc/Aux";
+import WithClass from "../hoc/withClass";
+
+export const AuthContext = React.createContext(false);
 
 class App extends Component {
   state = {
     users: [
-      { name: "Yatish", age: "23" },
-      { name: "Pro", age: "24" },
-      { name: "Ultimate", age: "25" }
+      { name: "Yatish", age: 23 },
+      { name: "Pro", age: 24 },
+      { name: "Ultimate", age: 25 }
     ],
-    showPersons: false
+    showPersons: false,
+    toggleClicked: 0,
+    authenticated: true
   };
 
   constructor() {
@@ -19,6 +25,19 @@ class App extends Component {
   }
   componentWillMount() {
     console.log("component will mount");
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log(
+      "App.js inside get derived state form props",
+      nextProps,
+      prevState
+    );
+    return prevState;
+  }
+
+  getSnapshotBeforeUpdate() {
+    console.log("method in App.js get shapshot before update");
   }
 
   componentDidMount() {
@@ -56,7 +75,21 @@ class App extends Component {
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({ showPersons: !doesShow });
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !doesShow,
+        toggleClicked: prevState.toggleClicked + 1
+      };
+    });
+  };
+
+  loginHandler = () => {
+    const auth = this.state.authenticated;
+    this.setState((prevState, props) => {
+      return {
+        authenticated: !auth
+      };
+    });
   };
 
   render() {
@@ -73,17 +106,22 @@ class App extends Component {
     }
 
     return (
-      <div className={classes.App}>
+      <Aux>
         <Cockpit
           title={this.props.title}
           persons={this.state.users}
           showPersons={this.state.showPersons}
           clicked={this.togglePersonsHandler}
+          login={this.loginHandler}
+          authStatus={this.state.authenticated}
         />
-        {persons}
-      </div>
+
+        <AuthContext.Provider value={this.state.authenticated}>
+          {persons}
+        </AuthContext.Provider>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default WithClass(App, classes.App);

@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import classes from "./person.module.scss";
+import Aux from "../../../hoc/Aux";
+import WithClass from "../../../hoc/withClass";
+import PropTypes from "prop-types";
+import { AuthContext } from "../../../Containers/App";
 
 class Person extends Component {
   constructor() {
     super();
     console.log("Person Constructor Method called");
+    this.inputElement = React.createRef();
   }
 
   componentWillMount() {
@@ -13,6 +18,11 @@ class Person extends Component {
 
   componentDidMount() {
     console.log("Person component did Mount");
+    // this.focus();
+  }
+
+  focus() {
+    this.inputElement.current.focus();
   }
 
   componentWillUnmount() {
@@ -23,7 +33,11 @@ class Person extends Component {
     console.log("Person Render Method called");
 
     return (
-      <div className={classes.Person}>
+      <Aux>
+        <AuthContext.Consumer>
+          {auth => (auth ? <p>I am authenticated</p> : null)}
+        </AuthContext.Consumer>
+
         <button onClick={this.props.click} className={classes.delete}>
           X
         </button>
@@ -31,30 +45,24 @@ class Person extends Component {
           I'am {this.props.name} I am {this.props.age} years
         </p>
         <p>{this.props.children}</p>
+        <p>{}</p>
         <input
+          ref={this.inputElement}
           type="text"
           onChange={this.props.changed}
           value={this.props.name}
         />
-      </div>
+      </Aux>
     );
   }
 }
 
-// const Person = props => {
-//   console.log("Person Child Compnent Called");
-//   return (
-//     <div className={classes.Person}>
-//       <button onClick={props.click} className={classes.delete}>
-//         X
-//       </button>
-//       <p>
-//         I'am {props.name} I am {props.age} years
-//       </p>
-//       <p>{props.children}</p>
-//       <input type="text" onChange={props.changed} value={props.name} />
-//     </div>
-//   );
-// };
+Person.propTypes = {
+  click: PropTypes.func,
+  name: PropTypes.string,
+  age: PropTypes.number,
+  changed: PropTypes.func,
+  trackId: PropTypes.number
+};
 
-export default Person;
+export default WithClass(Person, classes.Person);

@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./cockpit.module.scss";
+import Aux from "../../hoc/Aux";
 
 const cockpit = props => {
   const style = {
@@ -25,7 +26,7 @@ const cockpit = props => {
   console.log("child cockpit component called");
 
   return (
-    <div>
+    <Aux>
       <h2>{props.title}</h2>
       <p className={classesCustom.join(" ")}>Oh Really Working!</p>
       <button
@@ -35,8 +36,15 @@ const cockpit = props => {
       >
         Toogle Persons
       </button>
-    </div>
+      <button
+        className={classes.ShowButton}
+        style={{ margin: "10px auto" }}
+        onClick={props.login}
+      >
+        {props.authStatus ? "Logout" : "Login"}
+      </button>
+    </Aux>
   );
 };
 
-export default cockpit;
+export default React.memo(cockpit);
