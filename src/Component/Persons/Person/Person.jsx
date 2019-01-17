@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classes from "./person.module.scss";
-import Aux from "../../../hoc/Aux";
+import Aux from "../../../hoc/Auxs";
 import WithClass from "../../../hoc/withClass";
 import PropTypes from "prop-types";
 import { AuthContext } from "../../../Containers/App";

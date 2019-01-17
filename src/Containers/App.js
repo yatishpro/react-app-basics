@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classes from "./app.module.scss";
 import Persons from "../Component/Persons/Persons";
 import Cockpit from "../Component/Cockpit/Cockpit";
-import Aux from "../hoc/Aux";
+import Aux from "../hoc/Auxs";
 import WithClass from "../hoc/withClass";
 
 export const AuthContext = React.createContext(false);
